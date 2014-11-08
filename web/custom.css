@@ -1,0 +1,8 @@
+.main {
+    padding: 100px;
+    width: 920px;
+}
+
+.maze-canvas {
+    border: 1px solid #000;
+}
