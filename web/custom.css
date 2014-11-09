@@ -6,3 +6,7 @@
 .maze-canvas {
     border: 1px solid #000;
 }
+
+#mpp {
+    width: 150px;
+}

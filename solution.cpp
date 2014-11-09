@@ -12,7 +12,7 @@
 #define INF 1E9
 
 #define VERBOSE 0       // 1 - Print all prompts to screen. 0 - Don't.
-#define DR 1            // 1 - Graphs are directional. 0 - Undirectional.
+#define DR 0            // 1 - Graphs are directional. 0 - Undirectional.
 #define MAX_N 1000      // Maximum number of nodes supported by the program.
 
 int edge[MAX_N][MAX_N]; // Edge length from any pair of vertices. 0 if none.
@@ -46,6 +46,20 @@ void printDistance() {
   for (int i = 0; i < n; i++) {
     printf("Node %3d: %3d %3d\n", i, distance[i], parent[i]);
   }
+}
+
+void printPath(int destination) {
+    int output[MAX_N];
+    int m = 0;
+
+    for (int u = destination; 1; u = parent[u]) {
+        output[m++] = u;
+        if (parent[u] == u) break;
+    }
+
+    for (int i = m-1; i >= 0; i--) {
+        printf("%d ", output[i]);
+    }
 }
 
 void inputUnitGraph() {
@@ -132,11 +146,12 @@ void Dijkstra(int source) {
 
 int main() {
   initialize();
-  //inputUnitGraph(); printTable();
-  inputGraph(); printTable();
-  Dijkstra(0);
-  // BFS(0);
+  inputUnitGraph(); 
+  //inputGraph(); printTable();
+  //Dijkstra(0);
+  BFS(0);
   printDistance();
+  printPath(899);
   return 0;
 }
 
