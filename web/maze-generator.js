@@ -29,7 +29,7 @@ function initCanvas() {
 
     cellWidth = WIDTH / numCols;
     cellHeight = HEIGHT / numRows;
-};
+}
 
 
 function drawCell(r, c, downWall, rightWall) {
@@ -37,7 +37,7 @@ function drawCell(r, c, downWall, rightWall) {
     ctx.fillStyle = '#FFFFFF';
     //console.log(downWall, rightWall);
     ctx.fillRect(c * cellWidth, r * cellHeight, cellWidth - rightWall, cellHeight - downWall); 
-};
+}
 
 function dot(r, c, color) {
     var ctx = document.getElementById('maze-canvas').getContext('2d');
@@ -175,31 +175,63 @@ function generate() {
     }
 
     $('#graph-rep').val(graph_rep);
+    $('#feedback-placeholder').hide();
+
+    return cells;
 }
 
-function submitPath() {
+function showFeedback(type, message) {
+    $('#feedback-placeholder').html('<div class="alert ' + type + '">' + 
+                                    '<span>' + message + '</span></div>');
+    $('#feedback-placeholder').show();
+}
+
+function submitPath(cells) {
     var path = jQuery.map($('#path').val().split(' '), Number);
 
+    drawMaze(cells);
+
     for (var i = 0; i < path.length; i++) {
-        dot(toR(path[i]), toC(path[i]), 'blue');
+        if (i > 0) {
+            if ((path[i] === up(path[i-1]) && (cells[path[i]] & DOWNWALL) > 0) ||
+                (path[i] === right(path[i-1]) && (cells[path[i-1]] & RIGHTWALL) > 0) ||
+                (path[i] === down(path[i-1]) && (cells[path[i-1]] & DOWNWALL) > 0) ||
+                (path[i] === left(path[i-1]) && (cells[path[i]] & RIGHTWALL) > 0)) {
+                dot(toR(path[i]),toC(path[i]), 'red');
+                showFeedback('alert-danger', 'The path crosses a wall');
+                return;
+            }
+        }
+        dot(toR(path[i]), toC(path[i]), 'green');
     }
+
+    showFeedback('alert-success', 'Your path is correct at <b>' + path.length.toString() + '</b> steps.');
 }
 
 
 var main = function() {
+    var cells;
     $('#generate-10-10').click(function() {
         numRows = numCols = 10;
-        generate();
+        cells = generate();
+        console.log(isNaN(cells));
     });
     
     $('#generate-30-30').click(function() {
         numRows = numCols = 30;
-        generate();
+        cells = generate();
     });
 
-    $('#submit-path').click(submitPath);
-    
-    generate();
+    $('#submit-path').click(function() {
+        if (typeof cells === 'undefined') {
+            showFeedback('alert-danger', 'Maze not yet generated');
+        }
+        else {
+            submitPath(cells);
+        }
+    });
+   
+    cells = generate();
 }
 
 

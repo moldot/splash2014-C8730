@@ -34,7 +34,7 @@
           <!--</div>-->
     <!--</nav>-->
 
-    <div class="container main" role="main" padding=50px>
+    <div class="container main" role="main">
         <div class="jumbotron">
             <h1>Generated Maze</h1>
             <p>
@@ -44,9 +44,12 @@
             <form class="navbar-form">
                 <label for="mpp">Multiple solution factor (0 to 1): </label>
                 <input type="text" id="mpp" class="form-control input-lg" placeholder="0" />
-                <div id="generate-10-10" class="btn btn-default btn-lg pull-right">10x10</div>
-                <div id="generate-30-30" class="btn btn-default btn-lg pull-right">30x30</div>
+                <button id="generate-10-10" class="btn btn-default btn-lg pull-right">10x10</button>
+                <button id="generate-30-30" class="btn btn-default btn-lg pull-right">30x30</button>
             </form>
+        </div>
+
+        <div id="feedback-placeholder">
         </div>
 
         <div class="panel panel-default">
@@ -73,7 +76,7 @@
                 <p>A sequence of nodes from source to destination, separeted by spaces.</p>
                 <form>
                     <textarea id="path" class="form-control" rows="2"></textarea> 
-                    <p><div id="submit-path" class="btn btn-primary">Submit</div></p>
+                    <p><button id="submit-path" class="btn btn-primary" style="margin-top: 10px">Submit</button></p>
                 </form>
             </div>
         </div>
