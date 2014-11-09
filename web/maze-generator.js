@@ -13,8 +13,8 @@ var HEIGHT = 600;
 var RIGHTWALL = 1;
 var DOWNWALL = 2;
 
-var numRows = 10;
-var numCols = 10;
+var numRows;
+var numCols;
 var cellHeight;
 var cellWidth;
 
@@ -188,6 +188,7 @@ function showFeedback(type, message) {
 
 function submitPath(cells) {
     var path = jQuery.map($('#path').val().split(' '), Number);
+    var alerted = 0;
 
     drawMaze(cells);
 
@@ -198,14 +199,21 @@ function submitPath(cells) {
                 (path[i] === down(path[i-1]) && (cells[path[i-1]] & DOWNWALL) > 0) ||
                 (path[i] === left(path[i-1]) && (cells[path[i]] & RIGHTWALL) > 0)) {
                 dot(toR(path[i]),toC(path[i]), 'red');
-                showFeedback('alert-danger', 'The path crosses a wall');
-                return;
+                if (alerted === 0) {
+                    showFeedback('alert-danger', 'The path crosses a wall');
+                    alerted = 1;
+                }
+            } 
+            else {
+                dot(toR(path[i]), toC(path[i]), 'green');
             }
         }
-        dot(toR(path[i]), toC(path[i]), 'green');
+        else {
+            dot(toR(path[i]), toC(path[i]), 'green');
+        }
     }
 
-    showFeedback('alert-success', 'Your path is correct at <b>' + path.length.toString() + '</b> steps.');
+    if (alerted === 0) showFeedback('alert-success', 'Your path is correct at <b>' + path.length.toString() + '</b> steps.');
 }
 
 
@@ -214,7 +222,6 @@ var main = function() {
     $('#generate-10-10').click(function() {
         numRows = numCols = 10;
         cells = generate();
-        console.log(isNaN(cells));
     });
     
     $('#generate-30-30').click(function() {
@@ -231,6 +238,7 @@ var main = function() {
         }
     });
    
+    numRows = numCols = 10;
     cells = generate();
 }
 
