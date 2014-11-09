@@ -12,7 +12,7 @@
 #define INF 1E9
 
 #define VERBOSE 0       // 1 - Print all prompts to screen. 0 - Don't.
-#define DR 1            // 1 - Graphs are directional. 0 - Undirectional.
+#define DR 0            // 1 - Graphs are directional. 0 - Undirectional.
 #define MAX_N 1000      // Maximum number of nodes supported by the program.
 
 int edge[MAX_N][MAX_N]; // Edge length from any pair of vertices. 0 if none.
@@ -31,6 +31,7 @@ void initialize() {
 }
 
 void printTable() {
+  printf("Edge table\n");
   for (int i = 0; i < n; i++) {
     printf("%3d: ", i);
     for (int j = 0; j < n; j++) {
@@ -45,6 +46,20 @@ void printDistance() {
   for (int i = 0; i < n; i++) {
     printf("Node %3d: %3d %3d\n", i, distance[i], parent[i]);
   }
+}
+
+void printPath(int destination) {
+    int output[MAX_N];
+    int m = 0;
+
+    for (int u = destination; 1; u = parent[u]) {
+        output[m++] = u;
+        if (parent[u] == u) break;
+    }
+
+    for (int i = m-1; i >= 0; i--) {
+        printf("%d ", output[i]);
+    }
 }
 
 void inputUnitGraph() {
@@ -72,6 +87,25 @@ void inputGraph() {
     if (!DR) edge[n2][n1] = d;
   }
 }
+
+void inputMazeGraph() {
+  int n1, n2;
+  int d[MAX_N];
+  if (VERBOSE) printf("Input numbers of nodes and edges: ");
+  scanf("%d %d", &n, &e);
+
+  for (int i = 0; i < n; i++) {
+    scanf("%d", &d[i]);
+  }
+  
+  if (VERBOSE) printf("Input edges <n1> <n2>\n");
+  for (int i = 0; i < e; i++) {
+    scanf("%d %d", &n1, &n2);
+    edge[n1][n2] = d[n2];
+    if (!DR) edge[n2][n1] = d[n1];
+  }
+}
+
 
 
 void BFS(int source) {
@@ -131,11 +165,17 @@ void Dijkstra(int source) {
 
 int main() {
   initialize();
-  //inputUnitGraph(); printTable();
-  inputGraph(); printTable();
-  Dijkstra(0);
-  // BFS(0);
+  //inputUnitGraph(); 
+  //inputGraph(); 
+  inputMazeGraph();
+  
+  int s, t;
+  scanf("%d %d", &s, &t);
+
+  //BFS(s);
+  Dijkstra(s);
   printDistance();
+  printPath(t);
   return 0;
 }
 
