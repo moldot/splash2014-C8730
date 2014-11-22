@@ -1,7 +1,7 @@
 /**
  * Splash 2014 - C8730: Find the Shortest Path! 
- * File: solution.cpp
- * Description: Solutions for all exercises. To be reduced into skeleton file.
+ * File: skeleton.cpp
+ * Description: Skeleton for all exercises. STUDENT CODE STARTS AT LINE 128.
  *
  * @author Varot Premtoon
  * @version 1.0 11/07/2014
@@ -20,6 +20,10 @@ int distance[MAX_N];    // Minimal distance from source node
 int parent[MAX_N];      // Store the node before it in the shortest path
 int n, e;               // Numbers of nodes and edges respectively.
 
+// ****************************************************************************
+// DO NOT EDIT THIS PART
+// ****************************************************************************
+
 void initialize() {
   // All initial distance is infinite
   // Every node's parent is itself
@@ -33,8 +37,8 @@ void initialize() {
   }
 }
 
+// Print the values of all edges
 void printTable() {
-  // Print the values of all edges
   printf("Edge table\n");
   for (int i = 0; i < n; i++) {
     printf("%3d: ", i);
@@ -45,18 +49,18 @@ void printTable() {
   }
 }
 
+// Print 'distance' array
 void printDistance() {
-  // Print 'distance' array
   printf("<node>: <distance> <parent>\n");
   for (int i = 0; i < n; i++) {
     printf("Node %3d: %3d %3d\n", i, distance[i], parent[i]);
   }
 }
 
+// Using 'parent' array, backtrack from destination to source,
+// which is the node that has itself as its parent, and print
+// the path from source to destination
 void printPath(int destination) {
-  // Using 'parent' array, backtrack from destination to source,
-  // which is the node that has itself as its parent, and print
-  // the path from source to destination
   int output[MAX_N];
   int m = 0;
   
@@ -70,8 +74,8 @@ void printPath(int destination) {
   }
 }
 
+// For unweighted graph
 void inputUnitGraph() {
-  // For unweighted graph
   int n1, n2;
   if (VERBOSE) printf("Input numbers of nodes and edges: ");
   scanf("%d %d", &n, &e);
@@ -84,8 +88,8 @@ void inputUnitGraph() {
   }
 }
 
+// For weighted graph. Weight is given with each edge
 void inputGraph() {
-  // For weighted graph. Weight is given with each edge
   int n1, n2, d;
   if (VERBOSE) printf("Input numbers of nodes and edges: ");
   scanf("%d %d", &n, &e);
@@ -98,8 +102,8 @@ void inputGraph() {
   }
 }
 
+// For weighted graph. Weight is given with each node
 void inputMazeGraph() {
-  // For weighted graph. Weight is given with each node
   int n1, n2;
   int d[MAX_N];
   if (VERBOSE) printf("Input numbers of nodes and edges: ");
@@ -117,32 +121,29 @@ void inputMazeGraph() {
   }
 }
 
+// ****************************************************************************
+// ALL YOURS BELOW THIS POINT
+// ****************************************************************************
+
 void BFS(int source) {
   // Declare all needed variables.
-  int queue[MAX_N], front, rear;
-  int u;
   
   // Set the distance of the source node.
-  distance[source] = 0;
 
   // Put source node into the queue.
-  queue[rear = front = 0] = source;
 
   // Perform BFS, using the initial queue.
-  while (front <= rear) {
+  while () {
 
     // Pop first item and store in 'u'.
-    u = queue[front++];
 
     // Loop through each node 'v' in the graph.
     for (int v = 0; v < n; v++) {
-      if (edge[u][v] != 0 && distance[v] == INF) {
     // If there is an edge from 'u' to 'v', and the 
     // distance of 'v' is still INF (meaning that it has not
     // been computed)...
-        distance[v] = distance[u] + 1;
-        parent[v] = u;
-        queue[++rear] = v;
+      if () {
+      
       }
     }
   }
@@ -150,8 +151,6 @@ void BFS(int source) {
 
 void Dijkstra(int source) {
   // Declare all needed variables.
-  int visited[MAX_N]; 
-  int u, bestDistance;
 
   // ALl nodes are intially unvisited.
   for (int i = 0; i < n; i++) {
@@ -159,29 +158,17 @@ void Dijkstra(int source) {
   }
 
   // Set the distance of the source node.
-  distance[source] = 0;
   
-  while (1) {
+  // Perform dijkstra by expanding the cloud.
+  while () {
     // pick the nearest node from the cloud.
-    u = -1; bestDistance = INF;
-    for (int i = 0; i < n; i++) {
-      if (distance[i] < bestDistance && visited[i] == 0) {
-        u = i;
-        bestDistance = distance[i];
-      }
-    }
-    
-    // If there is no unvisited node, end the search.
-    if (bestDistance == INF) break;
 
     // Include 'u' into our cloud.
-    visited[u] = 1;
 
     // Update distance table.
     for (int v = 0; v < n; v++) {
-      if (edge[u][v] != 0 && distance[u] + edge[u][v] < distance[v]) {
-        distance[v] = distance[u] + edge[u][v];
-        parent[v] = u;
+      if ( ) {
+
       }
     }
   }
@@ -189,15 +176,15 @@ void Dijkstra(int source) {
 
 int main() {
   initialize();
-  //inputUnitGraph(); 
+  inputUnitGraph(); 
   //inputGraph(); 
-  inputMazeGraph();
+  //inputMazeGraph();
   
   int s, t;
   scanf("%d %d", &s, &t);
 
-  //BFS(s);
-  Dijkstra(s);
+  BFS(s);
+  //Dijkstra(s);
   printDistance();
   printPath(t);
   return 0;

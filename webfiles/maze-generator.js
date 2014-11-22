@@ -42,7 +42,8 @@ function initCanvas() {
 
 function drawCell(r, c, downWall, rightWall) {
     var ctx = document.getElementById('maze-canvas').getContext('2d');
-    ctx.fillStyle = 'hsl(240, 70%, ' + (100 - Math.floor(cellWeights[toInd(r, c)] * 50 / MAX_WEIGHT)).toString() + '%)';
+    ctx.fillStyle = 'hsl(240, 70%, ' + 
+            (100 - Math.floor(cellWeights[toInd(r, c)] * 50 / MAX_WEIGHT)).toString() + '%)';
     ctx.fillRect(c * cellWidth, r * cellHeight,
             cellWidth - WALL_THICKNESS * rightWall, cellHeight - WALL_THICKNESS * downWall); 
 }
@@ -117,6 +118,7 @@ function primMaze() {
     var visited = [];
     
     cells = [];
+    
     for (var i = 0; i < numRows; i++) {
         visited.push(0);
     }
@@ -133,16 +135,14 @@ function primMaze() {
     
     while (queue.length > 0) {
         var rnd = Math.floor(Math.random() * queue.length);
-        var trans = queue[rnd];
+        var a = queue[rnd].a;
+        var b = queue[rnd].b;
    
         queue.splice(rnd, 1);
   
-        var a = trans.a;
-        var b = trans.b;
- 
-        if (visited[trans.b] == 1) continue;
+        if (visited[b] == 1) continue;
 
-        visited[trans.b] = 1;
+        visited[b] = 1;
         makeWay(a, b); 
 
         if (up(b) >= 0) queue.push({a: b, b: up(b)});
